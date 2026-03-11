@@ -3,9 +3,9 @@ import requests
 import json
 
 # --- 配置区域 ---
-DB_PATH = R"C:\Users\king\AppData\Roaming\DBeaverData\workspace6\.metadata\sample-database-sqlite-1\Chinook.db"  # SQLite 数据库文件路径
-OLLAMA_URL = "http://localhost:11434/api/generate"
-WECOM_WEBHOOK_URL = "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=78e2f96a-c28b-4103-8bd6-cf67ef239bf2"
+DB_PATH = ""  # SQLite 数据库文件路径
+OLLAMA_URL = "http://localhost:11434/api/generate"#ollama地址通用的
+WECOM_WEBHOOK_URL = ""#企业微信机器人地址
 
 # 1. 从 SQLite 获取数据
 def get_data_from_sqlite():
@@ -14,7 +14,7 @@ def get_data_from_sqlite():
         with sqlite3.connect(DB_PATH) as conn:
             cursor = conn.cursor()
             # 执行你的 SQL 查询
-            cursor.execute("SELECT * FROM TMSTPINRECIPE;")
+            cursor.execute("")#添加你自己的sql
             # 将结果转换为列表，方便传入模型
             data = cursor.fetchall()
             return str(data)
@@ -42,7 +42,7 @@ def analyze_with_ollama(data):
 def send_to_wecom(content):
     payload = {
         "msgtype": "text",
-        "text": {"content": f"【SQLite 自动分析报告】\n{content}"}
+        "text": {"content": f"【分析报告】\n{content}"}
     }
     requests.post(WECOM_WEBHOOK_URL, json=payload)
 
