@@ -16,9 +16,9 @@ logging.basicConfig(
 )
 
 # --- 配置 ---
-DB_PATH = R"C:\Users\king\AppData\Roaming\DBeaverData\workspace6\.metadata\sample-database-sqlite-1\Chinook.db"
+DB_PATH = R""#文件位置
 OLLAMA_URL = "http://localhost:11434/api/generate"
-WECOM_WEBHOOK_URL = "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=78e2f96a-c28b-4103-8bd6-cf67ef239bf2"
+WECOM_WEBHOOK_URL = ""#企业微信机器人地址
 
 def get_data_from_sqlite():
     """从数据库获取数据并记录日志"""
@@ -26,7 +26,7 @@ def get_data_from_sqlite():
     try:
         with sqlite3.connect(DB_PATH, timeout=10) as conn:
             cursor = conn.cursor()
-            cursor.execute("SELECT * FROM TMSTPINRECIPE LIMIT 5;")
+            cursor.execute("")#你的sql代码
             data = cursor.fetchall()
             logging.info(f"成功获取数据，共 {len(data)} 条记录。")
             return str(data)
@@ -83,4 +83,5 @@ if __name__ == "__main__":
     else:
         logging.warning("未获取到有效数据，任务终止。")
         
+
     logging.info("=== 系统任务结束 ===")
