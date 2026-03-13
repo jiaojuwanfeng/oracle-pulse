@@ -16,10 +16,11 @@ services:
       
       # 企业微信配置
       - WECOM_WEBHOOK_URL=https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=yourkey  #你的企业微信机器人地址
-      - SLEEP_HOURS=0.02  #多长时间执行一次，单位小时
+      - SLEEP_HOURS=1  #多长时间执行一次，单位小时
     # 让容器能通过 host.docker.internal 访问宿主机上的 Ollama
     volumes:
       - ./logs:/app/logs
     extra_hosts:
       - "host.docker.internal:host-gateway"
+
     restart: always
