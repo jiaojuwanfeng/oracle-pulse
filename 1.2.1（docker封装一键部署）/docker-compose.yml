@@ -1,0 +1,25 @@
+services:
+  data-analyzer:
+    build: .
+    container_name: oracle-ai-bot
+    environment:
+      # 数据库配置：用户名，密码，地址
+      - ORACLE_USER=
+      - ORACLE_PASSWORD=
+      - ORACLE_DSN=host.docker.internal/orcl  # 注意：这里要写数据库实际 IP，本地部署的话就不用写了
+      
+      # Ollama 配置
+      # Docker 容器访问宿主机通常用 host.docker.internal
+      - OLLAMA_URL=http://host.docker.internal:11434/api/generate
+      - MODEL_NAME=deepseek-r1:1.5b   #模型选择
+      - SYSTEM_PROMPT=请帮我分析这份 Oracle 运营数据，重点关注异常值：  #提示词
+      
+      # 企业微信配置
+      - WECOM_WEBHOOK_URL=https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=yourkey  #你的企业微信机器人地址
+      - SLEEP_HOURS=0.02  #多长时间执行一次，单位小时
+    # 让容器能通过 host.docker.internal 访问宿主机上的 Ollama
+    volumes:
+      - ./logs:/app/logs
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    restart: always
