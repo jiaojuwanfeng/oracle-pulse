@@ -18,10 +18,17 @@ SYSTEM_PROMPT = os.getenv("SYSTEM_PROMPT", "你是一位专业的数据分析师
 SLEEP_HOURS = float(os.getenv("SLEEP_HOURS", 3))
 
 # --- 日志配置 ---
+log_dir = "logs"
+if not os.path.exists(log_dir):
+    os.makedirs(log_dir)
+
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s [%(levelname)s] %(message)s',
-    handlers=[logging.StreamHandler()]
+    handlers=[
+        logging.StreamHandler(),  # 输出到控制台（docker logs 可以看）
+        logging.FileHandler(f"{log_dir}/app.log", encoding='utf-8')  # 输出到文件（Windows 外面看）
+    ]
 )
 
 def get_data_from_oracle():
@@ -91,4 +98,5 @@ if __name__ == "__main__":
             
         except Exception as e:
             logging.error(f"任务周期运行出错: {e}")
+
             time.sleep(600) # 出错保护，休眠 10 分钟后重试
